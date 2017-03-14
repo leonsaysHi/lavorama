@@ -1,17 +1,27 @@
 import { createStore, applyMiddleware, compose } from 'redux';
-import thunk from 'redux-thunk';
-import reducers from '../reducers';
+import thunkMiddleware from 'redux-thunk';
+import createLogger from 'redux-logger';
 
+import { fetchPosts } from '../actions/actions'
+import rootReducer from '../reducers';
+
+const loggerMiddleware = createLogger();
 const middlewares = [
-  thunk,
+  thunkMiddleware,
 ];
 
 if (process.env.NODE_ENV === 'development') {
-  middlewares.push(require('redux-logger')({}));
+  middlewares.push(loggerMiddleware);
 }
 
-const create = compose(
-  applyMiddleware(...middlewares),
-)(createStore);
+const store = createStore(
+  rootReducer,
+  applyMiddleware(...middlewares)
+)
 
-export default () => create(reducers, {});
+// store.dispatch(selectedSubreddit('reactjs'))
+store.dispatch(fetchPosts('reactjs')).then(() =>
+  console.log(store.getState())
+)
+
+export default () => store

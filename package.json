@@ -1,12 +1,12 @@
 {
-  "name": "rr-boilerplate",
-  "description": "React&Redux boilerplate",
-  "author": "Alexander Tarasyuk",
+  "name": "Lavorama",
+  "description": "React & Redux",
+  "author": "uoa7",
   "license": "MIT",
   "version": "0.0.1",
   "repository": {
     "type": "git",
-    "url": "https://github.com/a-tarasyuk/rr-boilerplate"
+    "url": "https://github.com/leonsaysHi/lavorama.git"
   },
   "scripts": {
     "clean": "node_modules/.bin/rimraf build/",
@@ -52,6 +52,7 @@
     "babel-eslint": "^7.1.1",
     "babel-loader": "^6.2.8",
     "classnames": "^2.2.5",
+    "isomorphic-fetch": "^2.2.1",
     "normalize.css": "^5.0.0",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
