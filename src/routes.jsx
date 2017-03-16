@@ -8,6 +8,5 @@ export default (
   <Route path="/" component={Root}>
     <IndexRoute component={Home} />
     <Route path="/:date" component={Post} />
-
   </Route>
 );
