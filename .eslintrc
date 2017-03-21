@@ -18,6 +18,8 @@
     "arrow-body-style": 0,
     "space-before-function-paren": 0,
     "bject-curly-spacing": 0,
+    "no-debugger": 0,
+    "react/prop-types": 0,
 
     "global-require": 0,
     "no-param-reassign": 0,
