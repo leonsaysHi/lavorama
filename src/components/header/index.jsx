@@ -1,9 +1,9 @@
 import React from 'react';
 import styles from './styles.css';
-import PostList from '../../components/postslist';
+import PostsList from '../../components/postslist';
 
 export default () => (
   <div className={styles.header}>
-    <PostList />
+    <PostsList />
   </div>
 );

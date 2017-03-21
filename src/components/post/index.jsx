@@ -2,9 +2,7 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import styles from './styles.css';
 
-import Post from '../../components/post';
-
-class Posts extends React.Component {
+class Post extends React.Component {
   constructor(props) {
     super(props);
 
@@ -18,16 +16,24 @@ class Posts extends React.Component {
   render() {
     return (
       <div>
-        <Post />
+        Post page {this.props.selectedDate}
       </div>
     )
   }
 }
 
+
+Post.propTypes = {
+  selectedDate: PropTypes.string,
+}
+
+Post.defaultProps = {
+  selectedDate: ''
+}
+
 function mapStateToProps(state) {
-  debugger
   return { selectedDate: state.selectedDate }
 }
 
 
-export default connect(mapStateToProps)(Posts)
+export default connect(mapStateToProps)(Post)

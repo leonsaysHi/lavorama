@@ -3,16 +3,19 @@ import { combineReducers } from 'redux';
 // import features from './features.reducer';
 
 import {
-  SELECT_SUBREDDIT,
+  LOCATION_CHANGE,
   REQUEST_POSTS,
-  RECEIVE_POSTS
+  RECEIVE_POSTS,
+  SELECT_DATE,
+  REQUEST_DATE,
+  RECEIVE_DATE
 } from '../actions/actions'
 
 
-function selectedSubreddit(state = 'reactjs', action) {
+function selectedDate(state = '??', action) {
   switch (action.type) {
-    case SELECT_SUBREDDIT:
-      return action.subreddit
+    case LOCATION_CHANGE:
+      return action.payload.pathname
     default:
       return state
   }
@@ -41,12 +44,12 @@ function posts(state = {
   }
 }
 
-function postsBySubreddit(state = {}, action) {
+function imagesByDate(state = {}, action) {
   switch (action.type) {
-    case RECEIVE_POSTS:
-    case REQUEST_POSTS:
+    case RECEIVE_DATE:
+    case REQUEST_DATE:
       return Object.assign({}, state, {
-        [action.subreddit]: posts(state[action.subreddit], action)
+        [action.date]: posts(state[action.date], action)
       })
     default:
       return state
@@ -56,8 +59,9 @@ function postsBySubreddit(state = {}, action) {
 const rootReducer = combineReducers({
   routing,
   // features,
-  postsBySubreddit,
-  selectedSubreddit
+  imagesByDate,
+  selectedDate,
+  posts
 })
 
 export default rootReducer

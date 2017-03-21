@@ -2,7 +2,7 @@ import React from 'react';
 import { Route, IndexRoute } from 'react-router';
 import Root from './containers/root';
 import Home from './containers/home';
-import Post from './containers/post';
+import Post from './containers/posts';
 
 export default (
   <Route path="/" component={Root}>

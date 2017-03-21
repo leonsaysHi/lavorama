@@ -1,31 +1,59 @@
 import React, { PropTypes } from 'react';
-import { Link, IndexLink } from 'react-router';
+import { Router, browserHistory, Link } from 'react-router';
 import { connect } from 'react-redux';
 
+import storeConfig from '../../store';
+import { selectDate } from '../../actions/actions'
 
-const list = (datas) => {
-  const items = datas.posts.reactjs.items.slice(-5).map((item, index) => (
-    <li key={index}>
-      <IndexLink to={`/${item.date}`}>
-        {item.name}
-      </IndexLink>
-    </li>
-  ));
-  return (
-    <ul>
-      {items}
-    </ul>
-  );
-};
+const store = storeConfig();
 
-const mapStateToProps = (store) => {
+class PostsList extends React.Component {
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      selectedDate: props.selectedDate,
+      dates: props.dates
+    };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      selectedDate: nextProps.selectedDate,
+      dates: nextProps.dates
+    })
+  }
+
+  clickDate(date) {
+    console.log(date, this.state)
+    browserHistory.push(`/${date}`)
+    store.dispatch(selectDate(date))
+  }
+
+  render() {
+    const items = this.state.dates.slice(-5).map((item, index) => (
+      <li key={index}>
+        <Link to={`/${item.date}`}>{item.name}</Link>
+      </li>
+    ));
+    return (
+      <ul>
+        {items}
+      </ul>
+    );
+  }
+}
+
+const mapStateToProps = (storeDatas) => {
   return {
-    posts: store.postsBySubreddit
+    dates: storeDatas.posts.items,
+    selectedDate: storeDatas.selectedDate
   }
 }
 
 export default connect(
   mapStateToProps
 )(
-  list
+  PostsList
 );
