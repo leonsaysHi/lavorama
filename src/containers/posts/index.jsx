@@ -32,7 +32,8 @@ class Posts extends React.Component {
     const visus = this.state.imagesByDate[this.state.selectedDate] || [];
     return (
       <div>
-        {this.state.selectedDate}*
+        {this.state.selectedDate}
+        <hr />
         <Post visus={visus} />
       </div>
     )

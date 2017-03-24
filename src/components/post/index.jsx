@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
+
 import styles from './styles.css';
 
 class Post extends React.Component {
@@ -18,15 +19,15 @@ class Post extends React.Component {
   }
 
   render() {
-    const visus = this.state.visus.slice(-5).map((visu, index) => (
-      <li key={index}>
-        {visu.src}
-      </li>
+    const visus = this.state.visus.map((visu, index) => (
+      <div className={styles.diapo}>
+        <img src={visu.src}  alt="" className={styles.img} />
+      </div>
     ));
     return (
-      <ul>
+      <div className={styles.diapos}>
         {visus}
-      </ul>
+      </div>
     )
   }
 }
