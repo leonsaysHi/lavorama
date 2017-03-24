@@ -6,34 +6,30 @@ class Post extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = { selectedDate: props.selectedDate };
+    this.state = {
+      visus: props.visus
+    };
   }
 
-  componentWillReceiveProps(nextProps) {
-    this.setState({ selectedDate: nextProps.selectedDate })
+  componentWillReceiveProps(props) {
+    this.setState({
+      visus: props.visus
+    })
   }
 
   render() {
+    const visus = this.state.visus.slice(-5).map((visu, index) => (
+      <li key={index}>
+        {visu.src}
+      </li>
+    ));
     return (
-      <div>
-        Post page {this.props.selectedDate}
-      </div>
+      <ul>
+        {visus}
+      </ul>
     )
   }
 }
 
 
-Post.propTypes = {
-  selectedDate: PropTypes.string,
-}
-
-Post.defaultProps = {
-  selectedDate: ''
-}
-
-function mapStateToProps(state) {
-  return { selectedDate: state.selectedDate }
-}
-
-
-export default connect(mapStateToProps)(Post)
+export default Post

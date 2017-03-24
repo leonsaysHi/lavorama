@@ -2,10 +2,8 @@ import React, { PropTypes } from 'react';
 import { Router, browserHistory, Link } from 'react-router';
 import { connect } from 'react-redux';
 
-import storeConfig from '../../store';
 import { selectDate } from '../../actions/actions'
 
-const store = storeConfig();
 
 class PostsList extends React.Component {
 
@@ -15,20 +13,14 @@ class PostsList extends React.Component {
     this.state = {
       selectedDate: props.selectedDate,
       dates: props.dates
-    };
+    }
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps({ dates, selectedDate }) {
     this.setState({
-      selectedDate: nextProps.selectedDate,
-      dates: nextProps.dates
+      selectedDate,
+      dates
     })
-  }
-
-  clickDate(date) {
-    console.log(date, this.state)
-    browserHistory.push(`/${date}`)
-    store.dispatch(selectDate(date))
   }
 
   render() {
@@ -45,10 +37,10 @@ class PostsList extends React.Component {
   }
 }
 
-const mapStateToProps = (storeDatas) => {
+const mapStateToProps = (store) => {
   return {
-    dates: storeDatas.posts.items,
-    selectedDate: storeDatas.selectedDate
+    dates: store.nav.items,
+    selectedDate: store.nav.selectedDate
   }
 }
 

@@ -1,13 +1,13 @@
 import React, { PropTypes } from 'react';
 import Home from '../../containers/home';
-import Header from '../../components/header';
+import Nav from '../../components/nav';
 import styles from './styles.css';
 
 const Root = ({ children }) => {
   return (
     <div className={styles.root}>
 
-      <Header />
+      <Nav />
 
       <div className={styles.content}>
         { children || <Home /> }

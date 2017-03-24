@@ -20,6 +20,8 @@
     "bject-curly-spacing": 0,
     "no-debugger": 0,
     "react/prop-types": 0,
+    "space-in-parens": 0,
+    "no-multi-spaces": 0,
 
     "global-require": 0,
     "no-param-reassign": 0,
