@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
-import Home from '../../containers/home';
-import Nav from '../../components/nav';
+import Home from '../../components/home';
+import Nav from '../../containers/nav';
 import styles from './styles.css';
 
 const Root = ({ children }) => {

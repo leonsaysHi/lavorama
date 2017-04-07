@@ -1,0 +1,52 @@
+.header {
+  margin: 10px 0 0;
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.postList {
+  opacity: 1;
+}
+
+.show_postList {
+  display: block;
+}
+
+.hide_postList {
+  display: none;
+}
+
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  overflow: hidden;
+}
+
+.item {
+  position: relative;
+  width: 1em;
+  height: 1em;
+  padding: 5px;
+  flex: 0 1 0;
+}
+
+.item a span {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  background-color: white;
+}
+
+.item a {
+  display: inline-block;
+  font-size: 0.8em;
+  width: 1em;
+  height: 1em;
+  border-radius: 50%;
+  background-color: grey;
+}
