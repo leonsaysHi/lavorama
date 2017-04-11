@@ -7,10 +7,12 @@ const Root = ({ children }) => {
   return (
     <div className={styles.root}>
 
-      <Nav />
-
       <div className={styles.content}>
         { children || <Home /> }
+      </div>
+
+      <div className={styles.nav}>
+        <Nav />
       </div>
 
     </div>

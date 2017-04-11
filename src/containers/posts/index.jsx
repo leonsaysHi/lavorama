@@ -33,7 +33,6 @@ class Posts extends React.Component {
     return (
       <div>
         {this.state.selectedDate}
-        <hr />
         <Post visus={visus} />
       </div>
     )

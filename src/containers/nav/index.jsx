@@ -1,8 +1,9 @@
 import React from 'react';
-import { Router, browserHistory, Link } from 'react-router';
 import { connect } from 'react-redux';
+import classNames from 'classnames';
 
 import styles from './styles.css';
+import YearGroup from './yeargroup';
 
 import { selectDate } from '../../actions/actions';
 
@@ -13,7 +14,7 @@ class Nav extends React.Component {
     super(props);
 
     this.state = {
-      expanded: false,
+      expanded: true,
       selectedDate: props.selectedDate,
       dates: props.dates
     }
@@ -35,21 +36,28 @@ class Nav extends React.Component {
   }
 
   render () {
-    const showhide = this.state.expanded ? styles.show_postList : styles.hide_postList;
-    const items = this.state.dates.map((item, index) => (
-      <li key={index} className={styles.item}>
-        <Link to={`/${item.date}`}>
-          <span>{item.name}</span>
-        </Link>
-      </li>
+
+    const years = this.state.dates.reduce((accu, item) => {
+      const [year, month, day] = item.date.split('_');
+      let group = accu.find( _group => _group.year === year );
+      if (!group) {
+        group = { year, items: [] };
+        accu.push(group);
+      }
+      group.items.push(item);
+      return accu;
+    }, []);
+
+    const yearsHTML = years.map( (item, index) => (
+      <YearGroup year={item.year} items={item.items} key={index} />
     ));
+
     return (
-      <div className={styles.header}>
-        <button onClick={this.toggleNav}>Hop</button>
-        <div className={`${styles.postlist} ${showhide}`}>
-          <ul className={styles.list}>
-            {items}
-          </ul>
+      <div className={classNames(styles.header, styles.vert)}>
+        <div className={styles.nav_wrapper}>
+          <div className={styles.years}>
+            {yearsHTML}
+          </div>
         </div>
       </div>
     );

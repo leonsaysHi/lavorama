@@ -1,52 +1,40 @@
-.header {
-  margin: 10px 0 0;
-  padding: 10px 0;
-  border-bottom: 1px solid #eee;
+.nav_wrapper {
+  padding: 0;
+  height: 100vh;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
-.postList {
-  opacity: 1;
-}
-
-.show_postList {
+.years,
+.months,
+.days {
+  margin-bottom: 10px;
   display: block;
 }
 
-.hide_postList {
-  display: none;
-}
-
-.list {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  margin: 0;
-  padding: 0;
-  list-style-type: none;
-  overflow: hidden;
-}
-
-.item {
+.years > *,
+.months > *,
+.days > * {
   position: relative;
-  width: 1em;
-  height: 1em;
-  padding: 5px;
-  flex: 0 1 0;
+  display: block;
+  padding-bottom: 3px;
 }
 
-.item a span {
-  display: none;
-  position: absolute;
-  top: 0;
-  left: 50%;
-  background-color: white;
+.years h1,
+.months h2 {
+  margin: 0;
+  font-size: 1em;
+  font-weight: normal;
 }
 
-.item a {
-  display: inline-block;
-  font-size: 0.8em;
-  width: 1em;
-  height: 1em;
-  border-radius: 50%;
-  background-color: grey;
+.years h1 {
+  font-weight: bold;
+}
+
+.days > * {
+  padding: 1px 2px;
+  border-right: solid 1px white;
+  text-decoration: none;
+  background-color: #dedede;
+  border-radius: 2px;
 }

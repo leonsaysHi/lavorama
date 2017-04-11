@@ -1,11 +1,20 @@
 body {
   margin: 0;
   padding: 0;
+  overflow-y: scroll;
 }
 
 .root {
-  width: 800px;
+  width: 1024px;
+  display: flex;
+  flex-direction: row;
   margin: 0 auto;
 }
 
-.content {}
+.content {
+  flex: 0 0 800px;
+}
+
+.nav {
+  flex: 1 0 0;
+}
