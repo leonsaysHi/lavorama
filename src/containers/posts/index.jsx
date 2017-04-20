@@ -31,8 +31,7 @@ class Posts extends React.Component {
   render() {
     const visus = this.state.imagesByDate[this.state.selectedDate] || [];
     return (
-      <div>
-        {this.state.selectedDate}
+      <div className={styles.post_wrapper}>
         <Post visus={visus} />
       </div>
     )

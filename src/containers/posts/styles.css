@@ -8,3 +8,8 @@
   padding: 10px 5px;
   list-style-type: decimal;
 }
+
+.post_wrapper {
+  height: 100vh;
+  overflow-y: auto;
+}

@@ -1,9 +1,11 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
+import { Router, browserHistory } from 'react-router';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 
 import styles from './styles.css';
-import YearGroup from './yeargroup';
+import NavDisplay from './navdisplay';
 
 import { selectDate } from '../../actions/actions';
 
@@ -16,9 +18,18 @@ class Nav extends React.Component {
     this.state = {
       expanded: true,
       selectedDate: props.selectedDate,
-      dates: props.dates
+      dates: props.dates,
+      scrolledindex: 0
     }
-    this.toggleNav = this.toggleNav.bind(this);
+
+    this.handleScroll = this.handleScroll.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  componentDidMount() {
+    const node = this.scrolled;
+    node.addEventListener('scroll', this.handleScroll);
+    node.addEventListener('click', this.handleClick);
   }
 
   componentWillReceiveProps({ dates, selectedDate }) {
@@ -28,35 +39,42 @@ class Nav extends React.Component {
     })
   }
 
-  toggleNav() {
-    const newexpanded = this.state.expanded;
+  handleClick(event) {
+    const date = this.state.dates[this.state.scrolledindex];
+    console.log(this.state.scrolledindex, `/${date.date}`);
+    browserHistory.push(`/${date.date}`);
+  }
+
+  handleScroll(event) {
+    const prevscrolledindex = this.state.scrolledindex;
+    const node = this.scrolled;
+    const currscroll = node.scrollTop;
+    const maxscroll = node.scrollHeight - node.clientHeight;
+    const dateslen = this.state.dates.length;
+    const newscrolledindex = Math.min(Math.floor(currscroll / (maxscroll / dateslen)), dateslen - 1);
     this.setState({
-      expanded: !newexpanded
+      scrolledindex: newscrolledindex
     });
   }
 
   render () {
 
-    const years = this.state.dates.reduce((accu, item) => {
-      const [year, month, day] = item.date.split('_');
-      let group = accu.find( _group => _group.year === year );
-      if (!group) {
-        group = { year, items: [] };
-        accu.push(group);
-      }
-      group.items.push(item);
-      return accu;
-    }, []);
-
-    const yearsHTML = years.map( (item, index) => (
-      <YearGroup year={item.year} items={item.items} key={index} />
+    const scrolledindex = this.state.scrolledindex;
+    const scrolleddate = this.state.dates.length > 0 ? this.state.dates[this.state.scrolledindex] : { date: '' };
+    if (typeof scrolleddate === 'undefined') {
+      debugger;
+    }
+    const dates = this.state.dates;
+    const datesHTML = dates.map( (item, index) => (
+      <div key={index}>{item.name}</div>
     ));
 
     return (
       <div className={classNames(styles.header, styles.vert)}>
-        <div className={styles.nav_wrapper}>
-          <div className={styles.years}>
-            {yearsHTML}
+        { dates.length > 0 && <NavDisplay dates={dates} displaydate={scrolleddate} />}
+        <div className={styles.scroller} ref={(comp) => { this.scrolled = comp; }}>
+          <div className={styles.days}>
+            {datesHTML}
           </div>
         </div>
       </div>
