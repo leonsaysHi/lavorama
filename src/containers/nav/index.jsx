@@ -65,9 +65,12 @@ class Nav extends React.Component {
       debugger;
     }
     const dates = this.state.dates;
-    const datesHTML = dates.map( (item, index) => (
-      <div key={index}>{item.name}</div>
-    ));
+    const datesHTML = dates.map( (item, index) => {
+      const style = {
+        backgroundColor: `rgba(0,0,0,${(scrolleddate.date === item.date ? 0.05 : 0)})`
+      };
+      return <div key={index} style={style}>{item.name}</div>
+    });
 
     return (
       <div className={classNames(styles.header, styles.vert)}>

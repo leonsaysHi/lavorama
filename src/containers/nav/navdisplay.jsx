@@ -10,8 +10,7 @@ class NavDisplay extends React.Component {
 
     this.state = {
       dates: props.dates,
-      displaydate: props.displaydate,
-      way: -1
+      displaydate: props.displaydate
     }
   }
 
@@ -21,8 +20,7 @@ class NavDisplay extends React.Component {
     const prevplaindate = parseInt(this.state.displaydate.name.split('_').join(''), 10);
     const way = newplaindate > prevplaindate ? 1 : -1;
     this.setState({
-      displaydate,
-      way
+      displaydate
     })
   }
 
@@ -67,29 +65,80 @@ class NavDisplay extends React.Component {
     const displayyearindex = years.findIndex( item => item.dates.indexOf(this.state.displaydate.date) > -1 );
     const displaymonthindex = months.findIndex( item => item.dates.indexOf(this.state.displaydate.date) > -1 );
     const displaydayindex = days.findIndex( item => item.dates.indexOf(this.state.displaydate.date) > -1 );
+    const displaydateindex = this.state.dates.findIndex( item => item.date === this.state.displaydate.date);
+    console.log('****', displaydateindex);
+    const els = this.state.dates.reduce((accu, item, index) => {
 
-    const yearsEls = years.map( (item, index) => {
-      const off = (index - displayyearindex);
-      const style = {
-        top: Math.min(30, Math.max(-30, off * 30)),
-        opacity: off === 0 ? 1 : 0
+      const [year, month, day] = item.date.split('_');
+
+      // day
+      const offday = (index - displaydayindex);
+      console.log(index, '-', offday);
+      const lastday = {
+        dates: [item.date],
+        str: day,
+        style: {
+          top: offday * 30
+        }
+      };
+      accu.days.push(lastday);
+
+      // month
+      let lastmonth = accu.months[accu.months.length - 1];
+      const offmonth = (index - displaymonthindex);
+      if (!lastmonth || lastmonth.str !== month) {
+        lastmonth = {
+          dates: [],
+          str: month,
+          style: {
+            top: lastday.style.top
+          }
+        };
+        accu.months.push(lastmonth);
       }
+      if (index <= displaydateindex) {
+        lastmonth.style.top = lastday.style.top;
+      }
+      lastmonth.dates.push(item.date);
+
+      // year
+      let lastyear = accu.years[accu.years.length - 1];
+      const offyear = (index - displayyearindex);
+      if (!lastyear || lastyear.str !== year) {
+        lastyear = {
+          dates: [],
+          str: year,
+          style: {
+            top: lastday.style.top
+          }
+        };
+        accu.years.push(lastyear);
+      }
+      if (index <= displaydateindex) {
+        lastyear.style.top = lastday.style.top;
+      }
+      lastyear.dates.push(item.date);
+
+      return accu
+    }, {
+      years: [],
+      months: [],
+      days: []
+    });
+
+    // build DOM
+    const yearsEls = els.years.map( (item, index) => {
+      const style = item.style;
       return <div key={`y${index}`} style={style}>{item.str}</div>
     });
-    const monthsEls = months.map( (item, index) => {
-      const off = (index - displaymonthindex);
-      const style = {
-        top: Math.min(30, Math.max(-30, off * 30)),
-        opacity: off === 0 ? 1 : 0
-      }
+
+    const monthsEls = els.months.map( (item, index) => {
+      const style = item.style;
       return <div key={`m${index}`} style={style}>{item.str}</div>
     });
-    const daysEls = days.map( (item, index) => {
-      const off = (index - displaydayindex);
-      const style = {
-        top: Math.min(30, Math.max(-30, off * 30)),
-        opacity: off === 0 ? 1 : 0
-      }
+
+    const daysEls = els.days.map( (item, index) => {
+      const style = item.style;
       return <div key={`d${index}`} style={style}>{item.str}</div>
     });
 

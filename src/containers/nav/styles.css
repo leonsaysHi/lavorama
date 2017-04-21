@@ -38,10 +38,12 @@
   z-index: 2;
   position: absolute;
   top: 50px;
-  left: 0;
+  left: -200px;
   right: 0;
+  height: 40px;
   font-size: 20px;
   font-weight: bold;
+  background-color: rgba(255, 0, 0, 0.2);
 }
 
 .displayyears,
