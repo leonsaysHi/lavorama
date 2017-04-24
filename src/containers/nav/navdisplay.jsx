@@ -66,19 +66,18 @@ class NavDisplay extends React.Component {
     const displaymonthindex = months.findIndex( item => item.dates.indexOf(this.state.displaydate.date) > -1 );
     const displaydayindex = days.findIndex( item => item.dates.indexOf(this.state.displaydate.date) > -1 );
     const displaydateindex = this.state.dates.findIndex( item => item.date === this.state.displaydate.date);
-    console.log('****', displaydateindex);
     const els = this.state.dates.reduce((accu, item, index) => {
 
       const [year, month, day] = item.date.split('_');
 
       // day
-      const offday = (index - displaydayindex);
-      console.log(index, '-', offday);
+      const dateoffset = (index - displaydayindex);
       const lastday = {
         dates: [item.date],
         str: day,
         style: {
-          top: offday * 30
+          top: Math.max(-100, Math.min(100, dateoffset * 30)),
+          opacity: dateoffset === 0 ? 1 : 0
         }
       };
       accu.days.push(lastday);
@@ -91,13 +90,17 @@ class NavDisplay extends React.Component {
           dates: [],
           str: month,
           style: {
-            top: lastday.style.top
+            top: lastday.style.top,
+            opacity: 0
           }
         };
         accu.months.push(lastmonth);
       }
       if (index <= displaydateindex) {
         lastmonth.style.top = lastday.style.top;
+      }
+      if (dateoffset === 0) {
+        lastmonth.style.opacity = lastday.style.opacity;
       }
       lastmonth.dates.push(item.date);
 
@@ -109,13 +112,17 @@ class NavDisplay extends React.Component {
           dates: [],
           str: year,
           style: {
-            top: lastday.style.top
+            top: lastday.style.top,
+            opacity: 0
           }
         };
         accu.years.push(lastyear);
       }
       if (index <= displaydateindex) {
         lastyear.style.top = lastday.style.top;
+      }
+      if (dateoffset === 0) {
+        lastyear.style.opacity = lastday.style.opacity;
       }
       lastyear.dates.push(item.date);
 
