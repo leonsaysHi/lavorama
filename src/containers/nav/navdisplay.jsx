@@ -28,6 +28,14 @@ class NavDisplay extends React.Component {
 
     const { years, months, days } = this.state.dates.reduce( (accu, item) => {
       const [year, month, day] = item.date.split('_');
+
+      // day
+      const currday = {
+        dates: [item.date],
+        str: day
+      };
+      accu.days.push(currday);
+
       // year
       let curryear = accu.years[accu.years.length - 1];
       if (!curryear || curryear.str !== year) {
@@ -38,6 +46,7 @@ class NavDisplay extends React.Component {
         accu.years.push(curryear);
       }
       curryear.dates.push(item.date);
+
       // month
       let currmonth = accu.months[accu.months.length - 1];
       if (!currmonth || currmonth.str !== month) {
@@ -48,16 +57,6 @@ class NavDisplay extends React.Component {
         accu.months.push(currmonth);
       }
       currmonth.dates.push(item.date);
-      // day
-      let currday = accu.days[accu.days.length - 1];
-      if (!currday || currday.str !== day) {
-        currday = {
-          dates: [],
-          str: day
-        };
-        accu.days.push(currday);
-      }
-      currday.dates.push(item.date);
 
       return accu;
     }, { years: [], months: [], days: [] });
@@ -66,65 +65,57 @@ class NavDisplay extends React.Component {
     const displaymonthindex = months.findIndex( item => item.dates.indexOf(this.state.displaydate.date) > -1 );
     const displaydayindex = days.findIndex( item => item.dates.indexOf(this.state.displaydate.date) > -1 );
     const displaydateindex = this.state.dates.findIndex( item => item.date === this.state.displaydate.date);
+
+    function getStyleFromDateOffset (offset) {
+      const top = offset * 50;
+      const opacity = Math.max(0.1, (offset === 0 ? 1 : 0.5) - Math.abs(offset * 0.1));
+      // const lineHeight = `${Math.max(10, (50 - Math.abs(offset * 5)))}px`;
+      // const fontSize = Math.max(5, 50 - Math.abs(offset * 5));
+      return {
+        top,
+        opacity,
+        //l ineHeight,
+        // fontSize
+      };
+    }
+
     const els = this.state.dates.reduce((accu, item, index) => {
 
       const [year, month, day] = item.date.split('_');
+      const dateoffset = (index - displaydayindex);
 
       // day
-      const dateoffset = (index - displaydayindex);
       const lastday = {
-        dates: [item.date],
         str: day,
-        style: {
-          top: Math.max(-100, Math.min(100, dateoffset * 30)),
-          opacity: dateoffset === 0 ? 1 : 0
-        }
+        style: getStyleFromDateOffset(dateoffset)
       };
       accu.days.push(lastday);
 
       // month
       let lastmonth = accu.months[accu.months.length - 1];
-      const offmonth = (index - displaymonthindex);
       if (!lastmonth || lastmonth.str !== month) {
         lastmonth = {
-          dates: [],
           str: month,
-          style: {
-            top: lastday.style.top,
-            opacity: 0
-          }
+          style: Object.assign({}, lastday.style)
         };
         accu.months.push(lastmonth);
       }
-      if (index <= displaydateindex) {
-        lastmonth.style.top = lastday.style.top;
-      }
-      if (dateoffset === 0) {
-        lastmonth.style.opacity = lastday.style.opacity;
-      }
-      lastmonth.dates.push(item.date);
 
       // year
       let lastyear = accu.years[accu.years.length - 1];
-      const offyear = (index - displayyearindex);
       if (!lastyear || lastyear.str !== year) {
         lastyear = {
-          dates: [],
           str: year,
-          style: {
-            top: lastday.style.top,
-            opacity: 0
-          }
+          style: Object.assign({}, lastday.style)
         };
         accu.years.push(lastyear);
       }
+
+      // move down month/year
       if (index <= displaydateindex) {
-        lastyear.style.top = lastday.style.top;
+        lastyear.style = Object.assign({}, lastday.style);
+        lastmonth.style = Object.assign({}, lastday.style);
       }
-      if (dateoffset === 0) {
-        lastyear.style.opacity = lastday.style.opacity;
-      }
-      lastyear.dates.push(item.date);
 
       return accu
     }, {
